@@ -1,0 +1,45 @@
+{% set name = "<PLEASE ADD PKG NAME>" %}
+{% set version = "<PLEASE ADD PKG VERSION>" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: <sha256>
+
+build:
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True  # [py<38]
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+    - python
+
+test:
+  imports:
+    - {{ name.replace('-', '.') }}
+  requires:
+    - pip
+  commands:
+    - pip check
+
+about:
+  home: <PLEASE ADD HOME URL>
+  summary: <PLEASE ADD SUMMARY>
+  description: |
+    <PLEASE ADD DESCRIPTION>
+  license: <PLEASE ADD LICENSE>
+  license_family: <PLEASE ADD LICENSE_FAMILY>
+  license_file: <PLEASE_ADD_LICENSE_FILE>
+  dev_url: <PLEASE ADD DEV URL>
+  doc_url: <PLEASE ADD DOC URL>
+
+extra:
+  recipe-maintainers:
+    - Jrice1317
