@@ -1,18 +1,19 @@
-{% set name = "<PLEASE ADD PKG NAME>" %}
-{% set version = "<PLEASE ADD PKG VERSION>" %}
+{% set name = "meteomatics" %}
+{% set version = "4.0.0" %}
+{% set sha256 = "ed5556fefabee166211472e0cf6a27a21bfd7753ab4a0e7d9c500967fecd4ecf" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: <sha256>
+  sha256: {{ sha256 }}
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<38]
+  skip: true  # [py<311]
 
 requirements:
   host:
@@ -20,26 +21,40 @@ requirements:
     - pip
   run:
     - python
+    - isodate
+    - pandas
+    - pathlib2
+    - pytz
+    - requests
 
 test:
-  imports:
-    - {{ name.replace('-', '.') }}
   requires:
+    - python
     - pip
+  imports:
+    - {{ name }}
   commands:
     - pip check
 
 about:
-  home: <PLEASE ADD HOME URL>
-  summary: <PLEASE ADD SUMMARY>
+  home: https://pypi.org/project/meteomatics/
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  license_url: https://github.com/meteomatics/python-connector-api?tab=MIT-1-ov-file
+  summary: API for Meteomatics
   description: |
-    <PLEASE ADD DESCRIPTION>
-  license: <PLEASE ADD LICENSE>
-  license_family: <PLEASE ADD LICENSE_FAMILY>
-  license_file: <PLEASE_ADD_LICENSE_FILE>
-  dev_url: <PLEASE ADD DEV URL>
-  doc_url: <PLEASE ADD DOC URL>
+    Meteomatics provides a REST-style API to retrieve historic, current, and forecast data globally. This includes model
+    data and observational data in time series and areal formats. Areal formats are also offered through a
+    WMS/WFS-compatible interface. Geographic and time series data can be combined in certain file formats, such as
+    NetCDF.
+  dev_url: https://github.com/meteomatics/python-connector-api
+  doc_url: https://www.meteomatics.com/en/api/overview/
+  doc_source_url: https://github.com/meteomatics/python-connector-api/blob/master/README.md
 
 extra:
+  anaconda-services:
+    ref:
+      - https://anaconda.zendesk.com/agent/tickets/109074
   recipe-maintainers:
-    - Jrice1317
+    - amaloney
