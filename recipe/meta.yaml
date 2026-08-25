@@ -1,6 +1,5 @@
 {% set name = "meteomatics" %}
 {% set version = "4.0.0" %}
-{% set sha256 = "ed5556fefabee166211472e0cf6a27a21bfd7753ab4a0e7d9c500967fecd4ecf" %}
 
 package:
   name: {{ name }}
@@ -8,52 +7,43 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: {{ sha256 }}
+  sha256: ed5556fefabee166211472e0cf6a27a21bfd7753ab4a0e7d9c500967fecd4ecf
 
 build:
   number: 0
+  skip: true  # [py<310]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: true  # [py<311 or (win and py>=314)]
 
 requirements:
   host:
-    - python
     - pip
+    - python
     - setuptools
   run:
+    - isodate >=0.6.0
+    - pandas >=1.1.5
+    - pathlib2 >=2.3.5
     - python
-    - isodate
-    - pandas
-    - pathlib2
     - pytz
-    - requests
+    - requests >=2.21.0
 
 test:
   requires:
-    - python
     - pip
   imports:
-    - {{ name }}
+    - meteomatics
   commands:
     - pip check
 
 about:
-  home: https://pypi.org/project/meteomatics/
+  home: https://github.com/meteomatics/python-connector-api
   license: MIT
   license_family: MIT
   license_file: LICENSE
-  summary: API for Meteomatics
-  description: |
-    Meteomatics provides a REST-style API to retrieve historic, current, and forecast data globally. This includes model
-    data and observational data in time series and areal formats. Areal formats are also offered through a
-    WMS/WFS-compatible interface. Geographic and time series data can be combined in certain file formats, such as
-    NetCDF.
+  summary: Meteomatics API connector for Python
   dev_url: https://github.com/meteomatics/python-connector-api
   doc_url: https://www.meteomatics.com/en/api/overview/
 
 extra:
-  anaconda-services:
-    ref:
-      - https://anaconda.zendesk.com/agent/tickets/109074
   recipe-maintainers:
-    - amaloney
+    - anaconda-services
