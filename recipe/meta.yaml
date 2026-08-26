@@ -1,45 +1,57 @@
-{% set name = "<PLEASE ADD PKG NAME>" %}
-{% set version = "<PLEASE ADD PKG VERSION>" %}
+{% set name = "meteomatics" %}
+{% set version = "4.0.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: <sha256>
+  sha256: ed5556fefabee166211472e0cf6a27a21bfd7753ab4a0e7d9c500967fecd4ecf
 
 build:
   number: 0
+  skip: true  # [py<310]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<38]
 
 requirements:
   host:
     - python
     - pip
+    - wheel
+    - setuptools
   run:
     - python
+    - isodate >=0.6.0
+    - pandas >=1.1.5
+    - pathlib2 >=2.3.5
+    - pytz
+    - requests >=2.21.0
 
 test:
-  imports:
-    - {{ name.replace('-', '.') }}
   requires:
     - pip
+  imports:
+    - meteomatics
   commands:
     - pip check
 
 about:
-  home: <PLEASE ADD HOME URL>
-  summary: <PLEASE ADD SUMMARY>
+  home: https://github.com/meteomatics/python-connector-api
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: Meteomatics API connector for Python
   description: |
-    <PLEASE ADD DESCRIPTION>
-  license: <PLEASE ADD LICENSE>
-  license_family: <PLEASE ADD LICENSE_FAMILY>
-  license_file: <PLEASE_ADD_LICENSE_FILE>
-  dev_url: <PLEASE ADD DEV URL>
-  doc_url: <PLEASE ADD DOC URL>
+    The Meteomatics Python connector provides easy access to the Meteomatics Weather API. It
+    enables retrieval of weather forecasts, historical weather data, and climate data as pandas
+    DataFrames.
+  dev_url: https://github.com/meteomatics/python-connector-api
+  doc_url: https://www.meteomatics.com/en/api/overview/
 
 extra:
+  anaconda-services:
+    ref:
+      - https://anaconda.zendesk.com/agent/tickets/109074
   recipe-maintainers:
-    - Jrice1317
+    - amaloney

@@ -1,0 +1,6 @@
+anaconda_config_version: 1
+upstream_sources:
+  - github:
+      identifier: meteomatics/python-connector-api
+      strip_prefix: v
+    packages: [meteomatics]
