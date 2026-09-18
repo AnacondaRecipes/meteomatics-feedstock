@@ -1,0 +1,11 @@
+name: meteomatics
+version: 1
+
+build:
+  script: conda-build recipe/
+
+channels:
+  - defaults
+
+upload:
+  channel: main

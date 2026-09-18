@@ -1,45 +1,53 @@
-{% set name = "<PLEASE ADD PKG NAME>" %}
-{% set version = "<PLEASE ADD PKG VERSION>" %}
+{% set name = "meteomatics" %}
+{% set version = "4.0.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: <sha256>
+  sha256: ed5556fefabee166211472e0cf6a27a21bfd7753ab4a0e7d9c500967fecd4ecf
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True  # [py<38]
+  skip: true  # [py<39]
 
 requirements:
   host:
-    - python
     - pip
-  run:
     - python
+    - setuptools
+  run:
+    - isodate
+    - pandas
+    - pathlib2
+    - python
+    - pytz
+    - requests
 
 test:
-  imports:
-    - {{ name.replace('-', '.') }}
   requires:
     - pip
+  imports:
+    - meteomatics
   commands:
     - pip check
 
 about:
-  home: <PLEASE ADD HOME URL>
-  summary: <PLEASE ADD SUMMARY>
-  description: |
-    <PLEASE ADD DESCRIPTION>
-  license: <PLEASE ADD LICENSE>
-  license_family: <PLEASE ADD LICENSE_FAMILY>
-  license_file: <PLEASE_ADD_LICENSE_FILE>
-  dev_url: <PLEASE ADD DEV URL>
-  doc_url: <PLEASE ADD DOC URL>
+  home: https://github.com/meteomatics/python-connector-api
+  license: MIT
+  license_family: MIT
+  license_file: LICENSE
+  summary: Meteomatics API connector
+  description: Meteomatics API connector
+  dev_url: https://github.com/meteomatics/python-connector-api
+  doc_url: https://github.com/meteomatics/python-connector-api#readme
 
 extra:
+  anaconda-services:
+    ref:
+      - https://anaconda.zendesk.com/agent/tickets/109074
   recipe-maintainers:
-    - Jrice1317
+    - anaconda-services
