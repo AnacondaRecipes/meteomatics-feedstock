@@ -1,5 +1,11 @@
-aggregate_check: false
-upload_channels:
-  - services
+name: meteomatics
+version: 1
+
+build:
+  script: conda-build recipe/
+
 channels:
   - defaults
+
+upload:
+  channel: main
